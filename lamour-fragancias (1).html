@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lamour Fragancias · Pedí tu perfume</title>
+<meta name="description" content="Perfumes inspirados en los originales. Completá el pedido y te respondo por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #11203A;
+    --niebla: #C9D1DE;
+    --marfil: #F6F3EC;
+    --oro: #C8A96A;
+    --oro-claro: #D6B979;
+    --oro-oscuro: #9C7F42;
+    --tinta: #0E1726;
+    --gris: #5B6475;
+    --error: #A3262F;
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--azul);
+    color: var(--niebla);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.5;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .wrap { max-width: 540px; margin: 0 auto; padding: 0 20px; }
+
+  /* Portada */
+  .hero { padding: 44px 0 26px; }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(42px, 13vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--oro);
+  }
+  .hero h1 span { display: block; }
+  .hero .filete { width: 56px; height: 2px; background: var(--oro); margin: 18px 0 12px; }
+  .hero .firma { margin: 0; font-size: 14.5px; color: var(--niebla); }
+  .lead { font-size: 18px; margin: 0 0 22px; max-width: 34ch; }
+
+  .reglas { list-style: none; margin: 0 0 32px; padding: 0; display: grid; gap: 10px; }
+  .reglas li { padding-left: 14px; border-left: 2px solid var(--oro); font-size: 15.5px; }
+
+  /* Formulario */
+  .panel {
+    background: var(--marfil);
+    color: var(--tinta);
+    border-radius: 22px 22px 0 0;
+    padding: 28px 20px calc(36px + env(safe-area-inset-bottom, 0px));
+    min-height: 60vh;
+  }
+  .panel h2 { font-family: var(--serif); font-size: 28px; line-height: 1.15; margin: 0 0 4px; }
+  .panel .sub { margin: 0 0 24px; color: var(--gris); font-size: 15.5px; }
+
+  .campo { margin: 0 0 22px; padding: 0; border: 0; }
+  .campo > label, .campo > legend { display: block; font-weight: 600; font-size: 15.5px; margin: 0 0 8px; padding: 0; }
+  .opcional { font-weight: 400; color: var(--gris); }
+
+  input[type="text"] {
+    width: 100%;
+    font: inherit;
+    font-size: 16px; /* evita el zoom en iPhone */
+    color: var(--tinta);
+    background: #fff;
+    border: 1.5px solid #CFD3DB;
+    border-radius: 12px;
+    padding: 13px 14px;
+  }
+  input[type="text"]::placeholder { color: #8C93A1; }
+  input[type="text"]:focus-visible { outline: 3px solid var(--oro); outline-offset: 1px; border-color: var(--oro-oscuro); }
+
+  /* Opciones tipo pastilla */
+  .opciones { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opciones input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .opciones label {
+    display: inline-block;
+    padding: 11px 16px;
+    border: 1.5px solid #CFD3DB;
+    border-radius: 999px;
+    background: #fff;
+    font-size: 15.5px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .opciones input:checked + label { background: var(--azul); border-color: var(--azul); color: var(--marfil); }
+  .opciones input:focus-visible + label { outline: 3px solid var(--oro); outline-offset: 2px; }
+
+  .nota { margin: 10px 0 0; font-size: 14.5px; color: var(--gris); }
+  .error { color: var(--error); font-size: 14.5px; margin: 6px 0 0; min-height: 0; }
+  .invalido > input[type="text"] { border-color: var(--error); }
+
+  .boton {
+    width: 100%;
+    font: inherit;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--tinta);
+    background: var(--oro);
+    border: 0;
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+    transition: background-color .15s;
+  }
+  .boton:hover { background: var(--oro-claro); }
+  .boton:active { background: var(--oro-oscuro); }
+  .boton:focus-visible { outline: 3px solid var(--azul); outline-offset: 3px; }
+  .ayuda { margin: 12px 0 0; font-size: 14.5px; color: var(--gris); text-align: left; }
+
+  .listo { display: none; margin-top: 18px; padding: 16px; background: #fff; border-left: 4px solid var(--oro); border-radius: 8px; font-size: 15.5px; }
+  .listo.visible { display: block; }
+  .listo a { color: var(--azul); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="hero">
+    <h1>Lamour <span>Fragancias</span></h1>
+    <div class="filete"></div>
+    <p class="firma">Fragancias inspiradas de máxima calidad</p>
+  </div>
+  <ul class="reglas">
+    <li>Realizo entregas los lunes y jueves por la tarde, y los sábados y domingos.</li>
+    <li>El pago se realiza en efectivo o por transferencia, al momento de la entrega.</li>
+    <li>Confirmo por WhatsApp si la entrega llega a tu zona y te envío el catálogo.</li>
+  </ul>
+</header>
+
+<main class="panel" id="pedido">
+  <div class="wrap" style="padding:0">
+    <h2>Tu pedido</h2>
+    <p class="sub">Son 5 preguntas y tarda un minuto.</p>
+
+    <form id="form" novalidate>
+      <div class="campo" id="c-nombre">
+        <label for="nombre">Tu nombre</label>
+        <input type="text" id="nombre" name="nombre" autocomplete="given-name" placeholder="Ej: Martina">
+        <p class="error" id="e-nombre" role="alert"></p>
+      </div>
+
+      <div class="campo" id="c-zona">
+        <label for="zona">¿En qué zona estás?</label>
+        <input type="text" id="zona" name="zona" autocomplete="address-level2" placeholder="Ej: Quilmes, Buenos Aires">
+        <p class="error" id="e-zona" role="alert"></p>
+      </div>
+
+      <fieldset class="campo">
+        <legend>¿Qué estás buscando?</legend>
+        <div class="opciones">
+          <input type="radio" name="busca" id="b1" value="Perfume de hombre" checked><label for="b1">De hombre</label>
+          <input type="radio" name="busca" id="b2" value="Perfume de mujer"><label for="b2">De mujer</label>
+          <input type="radio" name="busca" id="b3" value="Hombre y mujer / quiero ver todo"><label for="b3">Quiero ver todo</label>
+        </div>
+      </fieldset>
+
+      <div class="campo">
+        <label for="perfume">¿Tenés algún perfume en mente? <span class="opcional">(opcional)</span></label>
+        <input type="text" id="perfume" name="perfume" placeholder="Ej: uno parecido al Sauvage">
+      </div>
+
+      <fieldset class="campo">
+        <legend>¿Qué día te queda bien para recibirlo?</legend>
+        <div class="opciones">
+          <input type="radio" name="dia" id="d1" value="Lunes a la tarde" checked><label for="d1">Lunes a la tarde</label>
+          <input type="radio" name="dia" id="d2" value="Jueves a la tarde"><label for="d2">Jueves a la tarde</label>
+          <input type="radio" name="dia" id="d3" value="Sábado"><label for="d3">Sábado</label>
+          <input type="radio" name="dia" id="d4" value="Domingo"><label for="d4">Domingo</label>
+          <input type="radio" name="dia" id="d5" value="Cualquiera de esos días"><label for="d5">Cualquiera</label>
+        </div>
+      </fieldset>
+
+      <fieldset class="campo">
+        <legend>¿Cómo pagás al recibirlo?</legend>
+        <div class="opciones">
+          <input type="radio" name="pago" id="p1" value="Efectivo" checked><label for="p1">Efectivo</label>
+          <input type="radio" name="pago" id="p2" value="Transferencia"><label for="p2">Transferencia</label>
+        </div>
+        <p class="nota">Se confirma el método de entrega por WhatsApp.</p>
+      </fieldset>
+
+      <button type="submit" class="boton">Enviar pedido por WhatsApp</button>
+      <p class="ayuda">Se abre tu WhatsApp con el pedido ya escrito. Solo tenés que tocar enviar.</p>
+
+      <div class="listo" id="listo" role="status">
+        Se abrió WhatsApp con tu pedido. Si no se abrió, <a id="reintento" href="#">tocá acá</a>.
+      </div>
+    </form>
+  </div>
+</main>
+
+<script>
+  // ============ CAMBIAR ESTO ============
+  // Tu número con código de país, sin +, sin espacios y sin el 15.
+  // Argentina: 54 + 9 + código de área (sin 0) + número.
+  // Ejemplo: 5491122334455
+  const NUMERO_WHATSAPP = "5491176466110";
+  // =====================================
+
+  const form = document.getElementById("form");
+  const listo = document.getElementById("listo");
+  const reintento = document.getElementById("reintento");
+
+  function valor(name) {
+    const el = form.elements[name];
+    return (el && el.value ? el.value : "").trim();
+  }
+
+  function marcarError(campo, mensaje) {
+    const caja = document.getElementById("c-" + campo);
+    document.getElementById("e-" + campo).textContent = mensaje;
+    caja.classList.toggle("invalido", Boolean(mensaje));
+  }
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+
+    const nombre = valor("nombre");
+    const zona = valor("zona");
+    let ok = true;
+
+    marcarError("nombre", nombre ? "" : "Escribí tu nombre.");
+    marcarError("zona", zona ? "" : "Escribí tu localidad y provincia para saber si llego.");
+    if (!nombre) { ok = false; document.getElementById("nombre").focus(); }
+    else if (!zona) { ok = false; document.getElementById("zona").focus(); }
+    if (!ok) return;
+
+    const perfume = valor("perfume");
+    const lineas = [
+      "Hola! Soy " + nombre + ". Quiero hacer un pedido en Lamour Fragancias.",
+      "",
+      "Zona: " + zona,
+      "Busco: " + valor("busca"),
+      perfume ? "Perfume en mente: " + perfume : null,
+      "Día de entrega: " + valor("dia"),
+      "Pago: " + valor("pago") + " al recibir",
+      "",
+      "¿Llegás a mi zona?"
+    ].filter(function (l) { return l !== null; });
+
+    const url = "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + encodeURIComponent(lineas.join("\n"));
+
+    reintento.href = url;
+    listo.classList.add("visible");
+    window.location.href = url;
+  });
+
+  ["nombre", "zona"].forEach(function (campo) {
+    document.getElementById(campo).addEventListener("input", function () { marcarError(campo, ""); });
+  });
+</script>
+</body>
+</html>
